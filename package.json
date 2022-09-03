@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "set DEBUG=nodepop:* & npx nodemon app.js"
+    "dev": "DEBUG=nodepop:* npx nodemon ./bin/www",
+    "devWin": "set DEBUG=nodepop:* & npx nodemon ./bin/www",
+    "sintax": "npx eslint *"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
