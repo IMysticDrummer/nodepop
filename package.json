@@ -1,0 +1,28 @@
+{
+  "name": "nodepop",
+  "version": "1.0.0",
+  "description": "Ads for the purchase and sale of second-hand items. Backend Develope Fundamentas Keepcoding W13",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IMysticDrummer/nodepop.git"
+  },
+  "keywords": [
+    "fundamentos",
+    "fundamentals",
+    "backend",
+    "node.js",
+    "mongoDB",
+    "keepcoding",
+    "nodepop"
+  ],
+  "author": "Iván García",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IMysticDrummer/nodepop/issues"
+  },
+  "homepage": "https://github.com/IMysticDrummer/nodepop#readme"
+}
