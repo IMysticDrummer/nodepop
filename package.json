@@ -1,28 +1,25 @@
 {
   "name": "nodepop",
-  "version": "1.0.0",
-  "description": "Ads for the purchase and sale of second-hand items. Backend Develope Fundamentas Keepcoding W13",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "dev": "set DEBUG=nodepop:* & npx nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IMysticDrummer/nodepop.git"
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.8",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
   },
-  "keywords": [
-    "fundamentos",
-    "fundamentals",
-    "backend",
-    "node.js",
-    "mongoDB",
-    "keepcoding",
-    "nodepop"
-  ],
-  "author": "Iván García",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/IMysticDrummer/nodepop/issues"
-  },
-  "homepage": "https://github.com/IMysticDrummer/nodepop#readme"
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.5",
+    "eslint-plugin-promise": "^6.0.1",
+    "nodemon": "^2.0.19"
+  }
 }
