@@ -4,7 +4,7 @@
     <picture></picture>
   </div>
   <aside>
-    <form name="formFilterPagination" action="/" method="get">
+    <form id="formFilterPagination" name="formFilterPagination" action="/" method="get">
       <nav>
         <section>
           <h4>Filtros por:</h4>
@@ -16,29 +16,24 @@
           </ul>
         </section>
         <section>
+
+          <label for="artPerPage"><h4><%= limit %> Elementos por página</h4></label>
           <ul class="pagination">
-            <li><a href="http://">Prev</a></li>
-            <li><a href="http://">Next</a></li>
-          </ul>
-          <!--
-          <label for="artPerPage"><h4>Elementos por página</h4></label>
-          <ul class="pagination">
-            <input type="hidden" name="page" id="page" value=<%= start %>>
-            <li>
-              <% if (limit===0) { %>
-                <input type="number" name="artPerPage" id="artPerPage">
-              <% } else {%>
-                <input type="number" name="artPerPage" id="artPerPage" value=<%= limit %>>
+            <input type="hidden" name="page" id="page" value=<%= currentPage %>>
+              <li><label><%= currentPage %> de <%= totalPages %></label></li>
+              <% if (currentPage<=1) { %>  
+                <li><button id="prev" type="button" disabled=true onclick=prevPage()>Anterior</button></li>
+              <% } else { %>
+                <li><button id="prev" type="button" onclick=prevPage()>Anterior</button></li>
               <% } %>
-              
-            </li>
-            <li><input type="submit" value="Aceptar"></li>
-            <% if (start>0) { %>
-              <li><button type="submit" value="next">Siguiente</button></li>
-            <% } %>
+
+              <% if (currentPage>=totalPages) { %>  
+                <li><button id="next" type="button" disabled=true onclick=nextPage()>Siguiente</button></li>
+              <% } else { %>
+                <li><button id="next" type="button" onclick=nextPage()>Siguiente</button></li>
+              <% } %>
           </ul>
 
-          -->
         </section>
       </nav>
     </form>

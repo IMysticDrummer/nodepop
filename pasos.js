@@ -20,6 +20,7 @@
   //TODO mostrar una lista de anuncios
 
 //TODO Mejorar la vista de anuncios
-  //TODO Paginación
+  //DONE Paginación fija a 3 elementos
+    //TODO? Poner paginación variable
   //TODO Filtros
 

@@ -10,7 +10,7 @@
 function totalPagesOfArray(data, dataPerPage) {
   if (dataPerPage>0) {return Math.ceil(data.length / dataPerPage);}
   return 1;
-};
+}
 
 /**
  * This function returns a sub-array of the data array which contents the elements
@@ -25,11 +25,10 @@ function changePage(data, currentPage, dataPerPage) {
   let dataTemp=[...data];
   let totalPages=totalPagesOfArray(data, dataPerPage);
 
-  let dataLong=data.length;
   let start=0;
   if (currentPage>1) {
     start=(currentPage-1)*dataPerPage;
-  };
+  }
 
   let end=data.length;
   if (currentPage<totalPages) {
@@ -37,26 +36,40 @@ function changePage(data, currentPage, dataPerPage) {
   }
 
   return dataTemp.slice(start,end);
-};
+}
 
+/**
+ * This function ensure get the previous page of an 
+ * elements array.
+ * @param {integer} currentPage Current page
+ * @param {array} data array of elements to get the page from
+ * @param {integer} dataPerPage number of elements to extract
+ */
 function prevPage(currentPage, data, dataPerPage) {
   if (currentPage>1) {
     currentPage--;
     changePage(data, currentPage, dataPerPage);
   }
-};
+}
 
+/**
+ * This function ensure get the next page of an
+ * elements array.
+ * @param {integer} currentPage Current page
+ * @param {array} data array of elements to get the page from
+ * @param {integer} dataPerPage number of elements to extract
+ */
 function nextPage(currentPage, data, dataPerPage) {
   if (currentPage<totalPagesOfArray(data, dataPerPage)) {
     currentPage++;
     changePage(data, currentPage, dataPerPage);
   }
-};
+}
 
 module.exports={
   totalPagesOfArray,
   changePage,
   prevPage,
   nextPage
-};
+}
 
