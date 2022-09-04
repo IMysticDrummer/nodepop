@@ -39,11 +39,28 @@ nav {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+nav>section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+}
+h4 {
+  width: 100%;
+}
 
 .filters{
   width: 100%;
 }
-.filters > li{
+.filters > li, .pagination > li{
   display: inline-block;
   justify-content: space-between;
+}
+
+label {
+  width: 100%;
+  text-align: right;
+}
+
+input[type=number] {
+  width: 4em;
 }

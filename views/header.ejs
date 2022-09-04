@@ -4,22 +4,43 @@
     <picture></picture>
   </div>
   <aside>
-    <nav>
-      <section>
-        <h4>Filtros por:</h4>
-        <ul class="filters">
-          <li>Tag</li>
-          <li>Tipo</li>
-          <li>Precio</li>
-          <li>Nombre</li>
-        </ul>
-      </section>
-      <section>
-        <h4>Elementos por página</h4>
-        <ul class="pagination">
-          <li>Artículos por página</li>
-        </ul>
-      </section>
-    </nav>
+    <form name="formFilterPagination" action="/" method="get">
+      <nav>
+        <section>
+          <h4>Filtros por:</h4>
+          <ul class="filters">
+            <li>Tag</li>
+            <li>Tipo</li>
+            <li>Precio</li>
+            <li>Nombre</li>
+          </ul>
+        </section>
+        <section>
+          <ul class="pagination">
+            <li><a href="http://">Prev</a></li>
+            <li><a href="http://">Next</a></li>
+          </ul>
+          <!--
+          <label for="artPerPage"><h4>Elementos por página</h4></label>
+          <ul class="pagination">
+            <input type="hidden" name="page" id="page" value=<%= start %>>
+            <li>
+              <% if (limit===0) { %>
+                <input type="number" name="artPerPage" id="artPerPage">
+              <% } else {%>
+                <input type="number" name="artPerPage" id="artPerPage" value=<%= limit %>>
+              <% } %>
+              
+            </li>
+            <li><input type="submit" value="Aceptar"></li>
+            <% if (start>0) { %>
+              <li><button type="submit" value="next">Siguiente</button></li>
+            <% } %>
+          </ul>
+
+          -->
+        </section>
+      </nav>
+    </form>
   </aside>
 </header>
