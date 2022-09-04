@@ -1,52 +1,24 @@
 var express = require('express');
 var router = express.Router();
+let pagination=require('../public/javascripts/pagination.js');
 
 let title= "Nodepop - The Web for purchase-sale second-hand articles";
 
 //Vars to use
-let ads=[1,2,3,4,5];
+let ads=[1,2,3,4,5,6,7];
 let start=0;
-let limit=0;
+let limit=20;
 let currentPage=1;
-let totalPages=1;
-
-//Functions for pagination
-function totalPagesofArray(data, dataPerPage){
-  if (dataPerPage>0) {return Math.ceil(data.length / dataPerPage);}
-  return 1;
-};
-
-function changePage(data, currentPage, dataPerPage) {
-  let dataTemp=[...data];
-  let totalPages=totalPagesofArray(data, dataPerPage);
-
-  let long=data.length;
-  let start=0;
-  if (currentPage>1) {
-    start=(currentPage-1)*dataPerPage;
-  };
-
-  let end=data.length;
-  if (currentPage<totalPages) {
-    end=currentPage*dataPerPage;
-  }
-
-  return dataTemp.slice(start,end);
-}
-
-function prevPage(currentPage, data, dataPerPage) {
-  if (currentPage>1) {
-    currentPage--;
-    changePage(data, currentPage, dataPerPage);
-  }
-};
-
-function nextPage(currentPage, data, dataPerPage) {
-  if (currentPage<totalPagesofArray(data, dataPerPage)) {
-    currentPage++;
-    changePage(data, currentPage, dataPerPage);
-  }
-};
+//Limit ads-list
+let totalPages=pagination.totalPagesOfArray(ads,limit);
+console.log(totalPages)
+let adsTemp=pagination.changePage(ads,currentPage,limit);
+console.log(adsTemp);
+let adsTemp2=pagination.changePage(ads,++currentPage,limit);
+console.log(adsTemp2);
+let adsTemp3=pagination.changePage(ads,++currentPage,limit);
+console.log(adsTemp3);
+//Functions for pagination --> exported
 
 
 //Objet to view
@@ -78,7 +50,7 @@ router.get('/', (req, res, next) => {
   } else {
     data.ads=ads;
     data.start=data.limit=0;
-  };
+  }
 
   res.render('index', data);
 });
