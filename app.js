@@ -11,6 +11,8 @@ var apiRouter = require('./routes/api/ads');
 var app = express();
 
 // view engine setup
+// Comment to evite no-undef error
+/* global __dirname */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

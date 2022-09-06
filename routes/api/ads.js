@@ -1,8 +1,14 @@
 const express=require('express');
 const router=express.Router();
-const ads=require('../../public/ads/ads.json');
+
+//Data charger
+const ads=require('../../public/ads/anuncios.json');
 
 router.get('/', (req, res, next) => {
+
+  let queryRequest=req.query;
+  console.log(queryRequest);
+
   res.json(ads);
 });
 
