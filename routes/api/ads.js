@@ -1,15 +1,25 @@
 const express=require('express');
 const router=express.Router();
-
 //Data charger
-const ads=require('../../public/ads/anuncios.json');
+const Advertisement=require('../../models/Anuncios');
 
-router.get('/', (req, res, next) => {
 
-  let queryRequest=req.query;
-  console.log(queryRequest);
+router.get('/', async (req, res, next) => {
 
-  res.json(ads);
+  //query-string parameters capture
+  const params=req.query.nombre;
+  console.log('parametros: ',params);
+  //Middelware query-string parameter traitement
+  
+  //response
+  try {
+    const anuncios = await Advertisement.find();
+    
+    res.json({ results: anuncios });
+
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports=router;

@@ -6,9 +6,9 @@
     //Desarrollo en linux
     //Arranque de la aplicación
 
-//TODO Instalar mongoose
+//DONE Instalar mongoose
 
-//TODO Instalar el modelo de anuncios y probarlo
+//DONE Instalar el modelo de anuncios y probarlo
 
 //TODO Script de inicialización de la base de datos y probarlo
 
