@@ -2,28 +2,28 @@ const express=require('express');
 const router=express.Router();
 //Data charger
 const Advertisement=require('../../models/Anuncios');
-const paramsValidation=require('../../lib/parameterAds');
-
+const priceFilter=require('../../lib/priceFilter');
 
 router.get('/', async (req, res, next) => {
-
-  //query-string parameters capture
-  let params=req.query;
+  let filters={};
   
-  //Middelware query-string parameter traitement
-  params=paramsValidation(params);
-  console.log('parametros: ',params);
+  if (req.query.nombre) {filters.nombre=req.query.nombre}
+  if (req.query.tag) {filters.tags=req.query.tag}
+  if (req.query.venta) {filters.venta=req.query.venta}
+  if (req.query.precio) {filters.precio=priceFilter(req.query.precio)}
 
-  //Creación de la query para mongo
-  
-  //response
+  const skip=req.query.skip;
+  const limit=req.query.limit;
+
+  const sort=req.query.sort;
+
   try {
-    const anuncios = await Advertisement.find(params.search).skip(params.start).limit(params.limit).sort(params.sort);
     
-    res.json({ results: anuncios });
+    const ads= await Advertisement.search(filters, skip, limit, sort);
+    res.json({results:ads});
 
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
