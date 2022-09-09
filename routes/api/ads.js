@@ -4,6 +4,7 @@ const router=express.Router();
 const Advertisement=require('../../models/Anuncios');
 const priceFilter=require('../../lib/priceFilter');
 
+//Route /api?...
 router.get('/', async (req, res, next) => {
   let filters={};
   
@@ -17,9 +18,11 @@ router.get('/', async (req, res, next) => {
 
   const sort=req.query.sort;
 
+  const fields=req.query.fields;
+
   try {
     
-    const ads= await Advertisement.search(filters, skip, limit, sort);
+    const ads= await Advertisement.search(filters, skip, limit, sort, fields);
     res.json({results:ads});
 
   } catch (error) {

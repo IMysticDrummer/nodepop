@@ -1,7 +1,7 @@
 'use strict';
 const mongoose = require("mongoose");
 
-//advertissement schema
+//advertisement schema
 const adsSquema = mongoose.Schema({
   nombre: String,
   venta: Boolean,
@@ -10,6 +10,15 @@ const adsSquema = mongoose.Schema({
   tags: [String]
 })
 
+/**
+ * 
+ * @param {object} filters Possible filters: nombre, venta, precio, tag
+ * @param {integer} skip Show result from skip+1
+ * @param {integer} limit Show only "limit" results
+ * @param {string} sort Sort results by: nombre, venta, precio
+ * @param {string} fields Show only the indicated fields
+ * @returns Object JSON containing the search results in DB
+ */
 adsSquema.statics.search=function (filters, skip, limit, sort, fields) {
   const query=Advertisement.find(filters);
   query.skip(skip);
