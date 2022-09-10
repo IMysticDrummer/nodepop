@@ -2,6 +2,19 @@
 Práctica de desarrollo backend para keepcoding web13. 
 Portal de anuncios de compra-venta de segunda mano, renderizado desde servidor.
 
+# PRERREQUISITOS PARA LA PRÁCTICA
+## Clonar el repositorio en local
+## Instalar dependencias
+No olvidar instalar las dependencias con el comando `npm install`.  
+## Base de datos
+La base de datos se llamará `nodepop`.  
+La colección se llamará `advertisements`.  
+Correr el comando node initDB.js.  
+El script se encargará de crear los índices necesarios, y subir los anuncios.  
+Asegurar que el archivo `anunciosBase.json` está disponible cuando se ha clonado
+el repositorio.
+
+
 # Arranque de la aplicación  
 Modo desarrollo en windows: npm run devWin  
 Modo desarrollo en plataformas linux: npm run dev  
@@ -41,12 +54,14 @@ Admite tanto valores true y false, como 1 y 0.
     - mobile
     - motor
     - work  
-*Este campo es insensible a búsqueda en mayúculas o minúsculas*, pero **requiere la palabra exacta**.
+
+  *Este campo es insensible a búsqueda en mayúculas o minúsculas*, pero **requiere la palabra exacta**.
 - precio=*cadena* --> Busca por rangos de precio. El formato de la *cadena* es (siempre sin espacios):
   - *number* --> P.e: 50 --> Busca los articulos de precio exacto
   - *number*- --> P.e: 30- --> Busca los artículos a partir del precio 30
   - *number*-*number* --> P.e: 20-100 --> Busca los artículos de precio a partir de 20 y hasta 100 incluido
   - -*number* --> P.e: -60 --> Busca los artículos de precio hasta 60  
+  
   **nota**: El número del precio sólo está limitado a que sea un número convertible a integer.
   Cualquier cifra integer es permitida.  
   Si se introduce una cifra con punto o coma, se

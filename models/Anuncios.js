@@ -9,7 +9,15 @@ const adsSquema = mongoose.Schema({
   precio: Number,
   foto: String,
   tags: [String]
-})
+});
+adsSquema.index({nombre:1});
+adsSquema.index({nombre:-1});
+adsSquema.index({precio:1});
+adsSquema.index({precio:-1});
+adsSquema.index({venta:1});
+adsSquema.index({venta:-1});
+adsSquema.index({tags:1});
+adsSquema.index({tags:-1});
 
 /**
  * 
