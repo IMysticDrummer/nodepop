@@ -14,7 +14,11 @@
 
 //TODO README.md con las instrucciones de uso --> en curso
 
-//TODO Primera versión básica de la API
+//TODO Hacer la API
+  //DONE Primera versión básica de la API
+  //DONE Lista de anuncios con paginación
+  //DONE Lista de anuncios con filtros
+  //TODO Lista de tags existentes
 
 //TODO Crear la página básica del site
   //TODO mostrar una lista de anuncios

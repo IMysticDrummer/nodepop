@@ -26,20 +26,31 @@ Sobre la dirección anterior se permiten los siguientes
 filtros en línea:  
 
 - nombre=*texto* --> búsqueda por el nombre del artículo  
-- venta=(*true* o *false*) --> búsqueda de artículos en venta (*true*) o de artículos que se buscan (*false*)
+Como **mejora**, el texto se buscará en el campo completo
+del nombre, no sólo por la palabra con la que empieza.  
+Además, buscará patron, por lo que no hace falta poner
+la palabra completa. Esto permitirá mejorar la experiencia de búsqueda del utilizador en la página web, y de las
+solicitudes hechas desde el API, con búsquedas más abiertas.  
+*Este campo es insensible a búsqueda en mayúculas o minúsculas.*   
+*Ejemplo:* `nombre=pho` devolverá tanto iPhone, como mobile phone, como phonetic.  
+- venta=(*true* o *false*) --> búsqueda de artículos en venta (*true*) o de artículos que se buscan (*false*).  
+Admite tanto valores true y false, como 1 y 0.
 - tag=*texto* --> texto a buscar entre los tags de los anuncios  
   - Sólo hay permitidos 4 tags:
     - lifestyle
     - mobile
     - motor
-    - work
+    - work  
+*Este campo es insensible a búsqueda en mayúculas o minúsculas*, pero **requiere la palabra exacta**.
 - precio=*cadena* --> Busca por rangos de precio. El formato de la *cadena* es (siempre sin espacios):
   - *number* --> P.e: 50 --> Busca los articulos de precio exacto
   - *number*- --> P.e: 30- --> Busca los artículos a partir del precio 30
   - *number*-*number* --> P.e: 20-100 --> Busca los artículos de precio a partir de 20 y hasta 100 incluido
   - -*number* --> P.e: -60 --> Busca los artículos de precio hasta 60  
   **nota**: El número del precio sólo está limitado a que sea un número convertible a integer.
-  Cualquier cifra integer es permitida.
+  Cualquier cifra integer es permitida.  
+  Si se introduce una cifra con punto o coma, se
+  tendrá en cuenta sólo la parte entera.   
 
 **Otros modificadores**  
 Sobre la dirección principal, y de la misma forma que se indican los filtros, se pueden aplicar otros modificadores a la consulta.

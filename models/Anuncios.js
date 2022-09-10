@@ -1,5 +1,6 @@
 'use strict';
 const mongoose = require("mongoose");
+const {check}=require('express-validator');
 
 //advertisement schema
 const adsSquema = mongoose.Schema({
@@ -20,12 +21,41 @@ const adsSquema = mongoose.Schema({
  * @returns Object JSON containing the search results in DB
  */
 adsSquema.statics.search=function (filters, skip, limit, sort, fields) {
+  if(filters.nombre) {
+    console.log(filters);
+  }
   const query=Advertisement.find(filters);
   query.skip(skip);
   query.limit(limit);
   query.sort(sort);
   query.select(fields);
   return query.exec();
+}
+
+/**
+ * This functions makes the data validation for the adsSchema to use with express-validator.  
+ * It will check all the posibilities of transmission (body, query, params, headers or cookies)
+ * @returns express-validator results for the adsSchema
+ */
+adsSquema.statics.dataValidator=function () {
+  return [
+    //common fields
+    check('nombre').if(check('nombre').exists()).isString().toLowerCase().withMessage('nombre must be an string'),
+    check('venta').if(check('venta').exists()).isBoolean().withMessage('venta must be true or false'),
+    //Search fields
+    check('tag').if(check('tag').exists()).toLowerCase().isIn(['work', 'lifestyle', 'mobile', 'motor'])
+      .withMessage('You must indicate just one word (work, lifestyle, mobile or motor) to find a tag'),    
+    check('precio').if(check('precio').exists()).custom(value => {
+      const rexExpPattern=new RegExp('([0-9]{1,7}-[0-9]{1,7}|[0-9]{1,7}-|[0-9]{1,7}|-[0-9]{1,7}){1}');
+      return rexExpPattern.test(value);
+      }).withMessage('precio must be as pattern ([0-9]{1,7}-[0-9]{1,7}|[0-9]{1,7}-|[0-9]{1,7}|-[0-9]{1,7}){1}'),
+    //Pagination fields
+    check('skip').if(check('skip').exists()).isInt().withMessage('skip must be an integer number'),
+    check('limit').if(check('limit').exists()).isInt().withMessage('limit must be an integer number'),
+    //Sort field
+    check('sort').if(check('sort').exists()).toLowerCase().isIn(['nombre','-nombre', 'precio', '-precio', 'venta', '-venta'])
+    .withMessage('Los campos vaídos para ordenar son: (-)nombre, (-)precio o (-)venta')
+  ]
 }
 
 // Creating model
