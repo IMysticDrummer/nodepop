@@ -1,18 +1,15 @@
 const express=require('express');
 const router=express.Router();
-const {validationResult, body} = require('express-validator');
-//Data charger
+const {validationResult} = require('express-validator');
 const {Advertisement, tagsPermitted}=require('../../models/Anuncios');
 const priceFilter=require('../../lib/priceFilter');
 
 //Route /api?...
-router.get('/', Advertisement.dataValidator(), async (req, res, next) => {
+router.get('/', Advertisement.dataValidatorGET(), async (req, res, next) => {
   try {
     validationResult(req).throw();
   } catch (error) {
-
     return res.status(422).json({error: error.array()})
-
 /*
     Código válido para fallos en la web
 
@@ -21,6 +18,7 @@ router.get('/', Advertisement.dataValidator(), async (req, res, next) => {
     next(error);
 */
   }
+
   let filters={};
   
   if (req.query.nombre) {
@@ -40,16 +38,15 @@ router.get('/', Advertisement.dataValidator(), async (req, res, next) => {
   const fields=req.query.fields;
 
   try {
-    
     const ads= await Advertisement.search(filters, skip, limit, sort, fields);
     res.json({results:ads});
-
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/tags', async (req, res, next) => {
+//Route api/tags --> Return tags permitted with the number of ads with this tag included
+router.get('/alltags', async (req, res, next) => {
   let filters={};
   let results={};
 
@@ -62,6 +59,45 @@ router.get('/tags', async (req, res, next) => {
   }
 
   res.json({results: results});
+});
+
+//Router / method POST --> Save a new advertisement
+router.post('/', Advertisement.dataValidatorPOST(), async (req, res, next) => {
+  //Data validation
+  try {
+    validationResult(req).throw();
+  } catch (error) {
+    return res.status(422).json({error: error.array()})
+  }
+
+  //Tags format
+  let tagsTemp;
+  if (typeof(req.body.tags)==='string') {tagsTemp=[req.body.tags]}
+  else {tagsTemp=req.body.tags}
+
+  //Model
+  const ad= new Advertisement ({
+    nombre: req.body.nombre,
+    venta: false||req.body.venta,
+    precio: 0||parseFloat(req.body.precio),
+    foto: req.body.foto,
+    tags: tagsTemp 
+  });
+
+  //Saving document in DB
+  try {
+    const adCreated=await ad.save();
+    res.status(201).json({result: {id: adCreated.__id, msg:`Anuncio ${adCreated.nombre} succesfully created`}});
+  } catch (error) {
+    //If it's validation error, the object error has not array function.
+    try {
+      const fail=error.array();
+      return res.status(422).json({error: fail});  
+    } catch (err) {
+      return res.status(422).json({error: error});
+    }
+  }
+
 });
 
 module.exports=router;

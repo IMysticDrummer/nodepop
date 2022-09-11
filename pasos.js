@@ -19,7 +19,7 @@
   //DONE Lista de anuncios con paginación
   //DONE Lista de anuncios con filtros
   //DONE Lista de tags existentes
-  //TODO Cargar anuncio
+  //DONE Cargar anuncio
 
 //TODO Crear la página básica del site
   //TODO mostrar una lista de anuncios

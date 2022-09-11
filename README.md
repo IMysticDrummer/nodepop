@@ -1,4 +1,4 @@
-# nodepop
+# NODEPOP
 Práctica de desarrollo backend para keepcoding web13. 
 Portal de anuncios de compra-venta de segunda mano, renderizado desde servidor.
 
@@ -9,18 +9,17 @@ No olvidar instalar las dependencias con el comando `npm install`.
 ## Base de datos
 La base de datos se llamará `nodepop`.  
 La colección se llamará `advertisements`.  
-Correr el comando node initDB.js.  
+Correr el comando `node initDB.js`  
 El script se encargará de crear los índices necesarios, y subir los anuncios.  
-Asegurar que el archivo `anunciosBase.json` está disponible cuando se ha clonado
-el repositorio.
+Asegurar que el archivo `anunciosBase.json` está disponible cuando se ha clonado el repositorio.
 
 
 # Arranque de la aplicación  
-Modo desarrollo en windows: npm run devWin  
-Modo desarrollo en plataformas linux: npm run dev  
-Arranque en producción: npm start  
+Modo desarrollo en windows: `npm run devWin`  
+Modo desarrollo en plataformas linux: `npm run dev`  
+**Arranque en producción: `npm start`**  
 
-# Uso del API
+# USO DEL API
 ## Propósito
 Este API devuelve el listado de anuncios de Nodepop en formato JSON, compuesto por la clave `results`, que cotiene un array de objetos.  
 Los campos a devolver se pueden seleccionar (ver la sección *peticiones al api*), aunque por defecto son:  
@@ -30,6 +29,7 @@ Los campos a devolver se pueden seleccionar (ver la sección *peticiones al api*
 - precio
 - foto: nombre del archivo de la foto del artículo, que se puede obtener de ...
 - tags: array con el/los tags de tipo asociados al artículo.
+- __v: versionado del documento
 ## Peticiones al api
 ---
 ### Listado completo de anuncios  
@@ -39,7 +39,7 @@ Los campos a devolver se pueden seleccionar (ver la sección *peticiones al api*
 Sobre la dirección anterior se permiten los siguientes
 filtros en línea:  
 
-- nombre=*texto* --> búsqueda por el nombre del artículo  
+- **nombre=** *texto* --> búsqueda por el nombre del artículo  
 Como **mejora**, el texto se buscará en el campo completo
 del nombre, no sólo por la palabra con la que empieza.  
 Además, buscará patron, por lo que no hace falta poner
@@ -47,9 +47,9 @@ la palabra completa. Esto permitirá mejorar la experiencia de búsqueda del uti
 solicitudes hechas desde el API, con búsquedas más abiertas.  
 *Este campo es insensible a búsqueda en mayúculas o minúsculas.*   
 *Ejemplo:* `nombre=pho` devolverá tanto iPhone, como mobile phone, como phonetic.  
-- venta=(*true* o *false*) --> búsqueda de artículos en venta (*true*) o de artículos que se buscan (*false*).  
+- **venta=**(*true* o *false*) --> búsqueda de artículos en venta (*true*) o de artículos que se buscan (*false*).  
 Admite tanto valores true y false, como 1 y 0.
-- tag=*texto* --> texto a buscar entre los tags de los anuncios  
+- **tag=** *texto* --> texto a buscar entre los tags de los anuncios  
   - Sólo hay permitidos 4 tags:
     - lifestyle
     - mobile
@@ -57,7 +57,7 @@ Admite tanto valores true y false, como 1 y 0.
     - work  
 
   *Este campo es insensible a búsqueda en mayúculas o minúsculas*, pero **requiere la palabra exacta**.
-- precio=*cadena* --> Busca por rangos de precio. El formato de la *cadena* es (siempre sin espacios):
+- **precio=** *cadena* --> Busca por rangos de precio. El formato de la *cadena* es (siempre sin espacios):
   - *number* --> P.e: 50 --> Busca los articulos de precio exacto
   - *number*- --> P.e: 30- --> Busca los artículos a partir del precio 30
   - *number*-*number* --> P.e: 20-100 --> Busca los artículos de precio a partir de 20 y hasta 100 incluido
@@ -86,11 +86,37 @@ Sobre la dirección principal, y de la misma forma que se indican los filtros, s
 ---  
 ## Número de elementos por tag permitido
 Devuelve un objeto con los tags permitidos y cuantos anuncios de cada tag hay contenidos en la base de datos  
-`http://localhost:3000/api/tags`  
-**Atención:**  no confundir a la llamada para obtener los
+`http://localhost:3000/api/alltags`  
+**Atención:**  no confundir con la llamada para obtener los
 anuncios que contengan un determiando tag, que sería  
 `http://localhost:3000/api/?tag=...` o
 `http://localhost:3000/api?tag=...`  
+
+---  
+## Creación de anuncios
+Mediante método POST se deben aportar todos los campos.
+En este casso, todos están requeridos en la base de datos,
+por lo que es obligatorio llenarlos.
+- **nombre** --> campo que debe contener un string con el nombre del anuncio  
+- **venta** --> campo que debe contener un booleano. Puede ser true, false, 0 o 1.
+  False o 0 significa que se está buscando ese artículo y el presupueto  
+  True o 1 significa que el artículo se pone a la venta por ese precio  
+- **precio** --> el precio de venta del artículo, o el presupuesto de búsqueda del mismo.  
+  ***Atención:*** El separador de decimales se hace con **`.`**  
+- **foto**: nombre del archivo que contiene la foto del anuncio. Debe ser formato jpg, jpeg o png. La API controla la extensión.
+- **tags**: debe ser un string, en el caso de que sea un sólo valor, o un array de strings en el caso de varios tags asociados al anuncio.  
+  ***Atención***: los valores permitidos son los mismos indicados anteriormente en este manual. La API controla tanto el formato como el contenido.  
+
+Cuando el anuncio esté creado, el API responderá con un código 201 y un objeto con un mensaje de anuncio correctamente creado.  
+
+---
+## Errores
+En caso de producirse errores en el paso de cualquier dato al API, este devolverá un objeto de error.
+Si el fallo es debido a algún dato mal introducido, o faltante (cuando se intenta crear un anuncio), el API responderá con un código 422, además de con un objeto que contendrá el mensaje de error y el lugar dónde se cometío (query o body).  
+
+En casos de errores por validación de un sólo dato, el API devolverá el objeto de error completo.
+
+Cualquier fallo no detectado, rogamos se pongan en contacto para su descripción y resolución.
 
 
 
