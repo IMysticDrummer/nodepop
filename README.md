@@ -31,10 +31,11 @@ Los campos a devolver se pueden seleccionar (ver la sección *peticiones al api*
 - foto: nombre del archivo de la foto del artículo, que se puede obtener de ...
 - tags: array con el/los tags de tipo asociados al artículo.
 ## Peticiones al api
-**Listado completo de anuncios**  
+---
+### Listado completo de anuncios  
 `http://localhost:3000/api`
 
-**Filtros permitidos**  
+### Filtros permitidos  
 Sobre la dirección anterior se permiten los siguientes
 filtros en línea:  
 
@@ -67,7 +68,7 @@ Admite tanto valores true y false, como 1 y 0.
   Si se introduce una cifra con punto o coma, se
   tendrá en cuenta sólo la parte entera.   
 
-**Otros modificadores**  
+### Otros modificadores  
 Sobre la dirección principal, y de la misma forma que se indican los filtros, se pueden aplicar otros modificadores a la consulta.
 - **Paginación**
   - skip=*number* --> Inidica cuantos de los resultados obtenidos de la base de datos saltarse en el resultado
@@ -82,6 +83,14 @@ Sobre la dirección principal, y de la misma forma que se indican los filtros, s
   Ejemplo:  
   `http://localhost:3000/api/?fields=nombre+precio%20-_id`  
   Esto devolverá el listado de artículos sólo con los campos nombre y precio.  
+---  
+## Número de elementos por tag permitido
+Devuelve un objeto con los tags permitidos y cuantos anuncios de cada tag hay contenidos en la base de datos  
+`http://localhost:3000/api/tags`  
+**Atención:**  no confundir a la llamada para obtener los
+anuncios que contengan un determiando tag, que sería  
+`http://localhost:3000/api/?tag=...` o
+`http://localhost:3000/api?tag=...`  
 
 
 

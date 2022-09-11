@@ -8,7 +8,7 @@ const readline = require('readline');
 let connection
 
 // Load models
-const Advertisement = require('./models/Anuncios');
+const {Advertisement} = require('./models/Anuncios');
 
 async function main() {
   connection = await require('./lib/connectMongoose');

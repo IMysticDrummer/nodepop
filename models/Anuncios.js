@@ -2,13 +2,31 @@
 const mongoose = require("mongoose");
 const {check}=require('express-validator');
 
+//Tags permitted
+const tagsPermitted=['lifestyle', 'work', 'mobile', 'motor'];
+
 //advertisement schema
 const adsSquema = mongoose.Schema({
   nombre: String,
   venta: Boolean,
   precio: Number,
   foto: String,
-  tags: [String]
+  tags: {
+    type: [String],
+    required: true,
+    validate: {
+      validator: function(tags){
+        let ok=false;
+        tags.forEach(element => {
+          tagsPermitted.forEach(tag => {
+            ok=ok||element===tag;
+          });
+        })
+        return ok;
+      },
+      message: "tags permmited: lifestyle, work, motor or mobile"
+    }
+  }
 });
 adsSquema.index({nombre:1});
 adsSquema.index({nombre:-1});
@@ -29,10 +47,11 @@ adsSquema.index({tags:-1});
  * @returns Object JSON containing the search results in DB
  */
 adsSquema.statics.search=function (filters, skip, limit, sort, fields) {
-  if(filters.nombre) {
+  if(filters.tags) {
     console.log(filters);
   }
   const query=Advertisement.find(filters);
+  console.log(query);
   query.skip(skip);
   query.limit(limit);
   query.sort(sort);
@@ -70,4 +89,4 @@ adsSquema.statics.dataValidator=function () {
 const Advertisement = mongoose.model('Advertisement', adsSquema);
 
 //Exporting model
-module.exports=Advertisement;
+module.exports={Advertisement, tagsPermitted};

@@ -10,7 +10,7 @@
 
 //DONE Instalar el modelo de anuncios y probarlo
 
-//TODO Script de inicialización de la base de datos y probarlo
+//DONE Script de inicialización de la base de datos y probarlo
 
 //TODO README.md con las instrucciones de uso --> en curso
 
@@ -18,7 +18,8 @@
   //DONE Primera versión básica de la API
   //DONE Lista de anuncios con paginación
   //DONE Lista de anuncios con filtros
-  //TODO Lista de tags existentes
+  //DONE Lista de tags existentes
+  //TODO Cargar anuncio
 
 //TODO Crear la página básica del site
   //TODO mostrar una lista de anuncios

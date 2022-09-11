@@ -1,8 +1,8 @@
 const express=require('express');
 const router=express.Router();
-const {query, validationResult, body} = require('express-validator');
+const {validationResult, body} = require('express-validator');
 //Data charger
-const Advertisement=require('../../models/Anuncios');
+const {Advertisement, tagsPermitted}=require('../../models/Anuncios');
 const priceFilter=require('../../lib/priceFilter');
 
 //Route /api?...
@@ -47,6 +47,21 @@ router.get('/', Advertisement.dataValidator(), async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+router.get('/tags', async (req, res, next) => {
+  let filters={};
+  let results={};
+
+  for (let index = 0; index < tagsPermitted.length; index++) {
+    const element = tagsPermitted[index];
+    filters.tags=element;
+    const tempResult=await Advertisement.search(filters)
+    results[element]=tempResult.length;
+    
+  }
+
+  res.json({results: results});
 });
 
 module.exports=router;
