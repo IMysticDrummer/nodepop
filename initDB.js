@@ -1,17 +1,18 @@
 'use strict';
-// Comment to evite no-undef error
+// Comment to evite eslint no-undef error
     /* global process */
 
 const readline = require('readline');
 
 // Var to connect DB
-let connection
+const connection= require('./lib/connectMongoose');
 
 // Load models
 const {Advertisement} = require('./models/Anuncios');
 
 async function main() {
-  connection = await require('./lib/connectMongoose');
+  //Assure the await to the DB connection before ask
+  await connection.$initialConnection;
   const continuar = await pregunta('Estas seguro, seguro, seguro, de que quieres borrar toda la base de datos y cargar datos iniciales? ');
   if (!continuar) {process.exit();}
 
@@ -20,7 +21,6 @@ async function main() {
 
   //closing connection DB
   connection.close();
-
 }
 
 main().catch(err => console.log('Hubo un error:', err));
@@ -49,7 +49,7 @@ async function initAds() {
  * @returns Promise returns true if the answer is "si", false in other case.
  */
 function pregunta(texto) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
 
     const ifc = readline.createInterface({
       input: process.stdin,

@@ -5,13 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api/ads');
 
 var app = express();
 
 // view engine setup
-// Comment to evite no-undef error
+// Comment to evite no-undef error in eslint
 /* global __dirname */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -31,7 +30,6 @@ app.use('/api', apiRouter);
 
 /* Web request */
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -39,9 +37,11 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+//next parameter is not going to be use. Deleted from the function call
+app.use(function(err, req, res) {
   // set locals, only providing error in development
-  console.log('Este es el error: ',err);
+  //console.log(err);
+  //console.log('Este es el error: ',err.status);
   res.locals.url= req.url;
   
   if (err.status===422) {

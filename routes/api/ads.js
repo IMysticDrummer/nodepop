@@ -46,7 +46,8 @@ router.get('/', Advertisement.dataValidatorGET(), async (req, res, next) => {
 });
 
 //Route api/tags --> Return tags permitted with the number of ads with this tag included
-router.get('/alltags', async (req, res, next) => {
+//next param is not going to be use. Deleted from the function call
+router.get('/alltags', async (req, res) => {
   let filters={};
   let results={};
 
@@ -62,7 +63,8 @@ router.get('/alltags', async (req, res, next) => {
 });
 
 //Router / method POST --> Save a new advertisement
-router.post('/', Advertisement.dataValidatorPOST(), async (req, res, next) => {
+//next param is not going to be use. Deleted from the function call
+router.post('/', Advertisement.dataValidatorPOST(), async (req, res) => {
   //Data validation
   try {
     validationResult(req).throw();

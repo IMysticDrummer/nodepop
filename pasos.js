@@ -14,7 +14,7 @@
 
 //TODO README.md con las instrucciones de uso --> en curso
 
-//TODO Hacer la API
+//DONE Hacer la API
   //DONE Primera versión básica de la API
   //DONE Lista de anuncios con paginación
   //DONE Lista de anuncios con filtros

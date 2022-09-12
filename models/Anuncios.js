@@ -15,6 +15,7 @@ const adsSquema = mongoose.Schema({
     type: [String],
     required: true,
     validate: {
+      //Validaton function for tags in tagsPermitted
       validator: function(tags){
         let ok=true;
         tags.forEach(element => {
@@ -38,7 +39,8 @@ adsSquema.index({tags:1});
 adsSquema.index({tags:-1});
 
 /**
- * 
+ * Search in DB Collection, applying filters, pagination, sort and 
+ * fields selected.
  * @param {object} filters Possible filters: nombre, venta, precio, tag
  * @param {integer} skip Show result from skip+1
  * @param {integer} limit Show only "limit" results
