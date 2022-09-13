@@ -1,8 +1,10 @@
 <header>
   <div class="titlePage"><%= title %></div>
+
   <div class="imgLogo">
     <picture></picture>
   </div>
+  
   <aside>
     <form id="formFilterPagination" name="formFilterPagination" action="/" method="get">
       <nav>
@@ -20,7 +22,13 @@
         </section>
         <section>
 
-          <label for="artPerPage"><h4><%= limit %> Elementos en esta página, de <%=ads.length%></h4></label>
+          <label for="artPerPage"><h4>
+            <% if (limit && limit<ads.length) {%>
+              <%= limit %> Elementos en esta página, de <%=ads.length%>
+            <%} else {%>
+              <%= ads.length %> Elementos en esta página%>
+            <%}%>
+          </h4></label>
 
         </section>
       </nav>

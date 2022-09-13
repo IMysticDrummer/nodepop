@@ -11,6 +11,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "no-unused-vars":"warn"
+        "no-unused-vars":"warn",
+        "semi": ["warn", "always"]
     }
 }

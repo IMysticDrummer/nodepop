@@ -1,34 +1,31 @@
 var express = require('express');
+const { validationResult } = require('express-validator');
 var router = express.Router();
 const {Advertisement}=require('../models/Anuncios');
 
 let title= "Nodepop - The Web for purchase-sale second-hand articles";
 
-//Objet to view
-let data={
-  title: title
-};
-
 //Routes GET home page
-router.get('/', async (req, res, next) => {
-  //Filters
-  let filters=Advertisement.assingFilters(req);
+router.get('/', Advertisement.dataValidator('get'), async (req, res, next) => {
+  try {
+    validationResult(req).throw();
+  } catch (error) {
+    error.status=422;
+    next(error);
+    return;
+  }
 
-  //Pagination
-  data.skip=req.query.skip;
-  data.limit=req.query.limit;
-
-  //Sort
-  const sort=req.query.sort;
-
-  //Fields
-  const fields=req.query.fields;
+  //Extracting the data for search
+  let data=Advertisement.assingSearchData(req);
+  //Adding title
+  data.title=title;
 
   //Search and render
   try {
-    data.ads= await Advertisement.search(filters, data.skip, data.limit, sort, fields);
+    data.ads= await Advertisement.search(data.filters, data.skip, data.limit, data.sort, data.fields);
     res.render('index', data);
   } catch(error) {
+    error.message='Impossible consult the DataBase, or results failed. Assure connection and data';
     next(error);
   }
 });

@@ -63,7 +63,7 @@ function pregunta(texto) {
         return;
       }
       resolve(false);
-    })
+    });
 
   });
 

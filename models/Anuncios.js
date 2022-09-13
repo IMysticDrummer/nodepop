@@ -20,7 +20,7 @@ const adsSquema = mongoose.Schema({
         let ok=true;
         tags.forEach(element => {
           ok=ok&&tagsPermitted.includes(element);
-        })
+        });
         return ok;
       },
       message: `You must indicate one or several tags. Values permmited: ${tagsPermitted}`
@@ -56,7 +56,7 @@ adsSquema.statics.search=function (filters, skip, limit, sort, fields) {
   query.sort(sort);
   query.select(fields);
   return query.exec();
-}
+};
 
 /**
  * This functions makes the data validation by query string for the adsSchema to use with express-validator.  
@@ -65,49 +65,49 @@ adsSquema.statics.search=function (filters, skip, limit, sort, fields) {
  * @returns express-validator results for the adsSchema
  */
 adsSquema.statics.dataValidator=function (method) {
+  //GET fields in query
   if (method==='get') {
-  return [
-    //GET fields in query
-    query('nombre').if(query('nombre').exists()).isString().toLowerCase()
-      .withMessage('nombre must be an string'),
-    query('venta').if(query('venta').exists()).isBoolean()
-      .withMessage('venta must be true or false'),
-    //Search fields
-    query('tag').if(query('tag').exists()).toLowerCase().isIn(['work', 'lifestyle', 'mobile', 'motor'])
-      .withMessage('You must indicate just one word (work, lifestyle, mobile or motor) to find a tag'),    
-    query('precio').if(query('precio').exists()).custom(value => {
-      const rexExpPattern=new RegExp('([0-9]{1,7}-[0-9]{1,7}|[0-9]{1,7}-|[0-9]{1,7}|-[0-9]{1,7}){1}');
-      return rexExpPattern.test(value);
-      }).withMessage('precio must be as pattern ([0-9]{1,7}-[0-9]{1,7}|[0-9]{1,7}-|[0-9]{1,7}|-[0-9]{1,7}){1}'),
+    return [
+      query('nombre').if(query('nombre').exists()).isString().toLowerCase()
+        .withMessage('nombre must be an string'),
+      query('venta').if(query('venta').exists()).isBoolean()
+        .withMessage('venta must be true or false'),
+      //Search fields
+      query('tag').if(query('tag').exists()).toLowerCase().isIn(['work', 'lifestyle', 'mobile', 'motor'])
+        .withMessage('You must indicate just one word (work, lifestyle, mobile or motor) to find a tag'),    
+      query('precio').if(query('precio').exists()).custom(value => {
+        const rexExpPattern=new RegExp('([0-9]{1,7}-[0-9]{1,7}|[0-9]{1,7}-|[0-9]{1,7}|-[0-9]{1,7}){1}');
+        return rexExpPattern.test(value);
+        }).withMessage('precio must be as pattern ([0-9]{1,7}-[0-9]{1,7}|[0-9]{1,7}-|[0-9]{1,7}|-[0-9]{1,7}){1}'),
 
-      //Pagination fields
-    query('skip').if(query('skip').exists()).isInt()
-      .withMessage('skip must be an integer number'),
-    query('limit').if(query('limit').exists()).isInt()
-      .withMessage('limit must be an integer number'),
-    //Sort field
-    query('sort').if(query('sort').exists()).toLowerCase()
-      .isIn(['nombre','-nombre', 'precio', '-precio', 'venta', '-venta'])
-      .withMessage('Los campos vaídos para ordenar son: (-)nombre, (-)precio o (-)venta')
-  ]
+        //Pagination fields
+      query('skip').if(query('skip').exists()).isInt()
+        .withMessage('skip must be an integer number'),
+      query('limit').if(query('limit').exists()).isInt()
+        .withMessage('limit must be an integer number'),
+      //Sort field
+      query('sort').if(query('sort').exists()).toLowerCase()
+        .isIn(['nombre','-nombre', 'precio', '-precio', 'venta', '-venta'])
+        .withMessage('Los campos vaídos para ordenar son: (-)nombre, (-)precio o (-)venta')
+    ];
   }
+  //Post fields
   if (method==='post') {
     return [
-      //Post fields
       body('nombre').isString().toLowerCase().withMessage('nombre must exist and be an string'),
       body('venta').isBoolean().withMessage('venta must exist and be true or false'),
       body('precio').isFloat().withMessage('precio must exist and must be integer or float'),
       body('foto').toLowerCase().custom(value => {
         const name=value.split('.');
-        return (false || name[name.length-1]==='jpg' || name[name.length-1]==='jpeg' || name[name.length-1]==='png')
+        return (false || name[name.length-1]==='jpg' || name[name.length-1]==='jpeg' || name[name.length-1]==='png');
       }).withMessage('foto file must be an jpg, jpeg or png format'),
       body('tags').custom(value => {
         return false || typeof(value)==='string' || Array.isArray(value);
       })
       .withMessage(`tags must be an array of strings containing one or several of ${tagsPermitted}`)
-    ]
+    ];
   }
-}
+};
 
 /**
  * Function to prepare price integer filter query to be use in mongoDB.
@@ -131,10 +131,10 @@ adsSquema.statics.dataValidator=function (method) {
  */
  function priceFilter(price) {
   if (price) {
-    let query
+    let query;
     let limits=price.split('-');
 
-    if (limits.length===1) {query=parseInt(limits[0])}
+    if (limits.length===1) {query=parseInt(limits[0]);}
     else {
       query={};
       if (limits[0]!=='') {
@@ -150,23 +150,40 @@ adsSquema.statics.dataValidator=function (method) {
 
 /**
  * Static method
+ * Take from the request the necessary data for prepare filters,
+ * pagination, sort, limits and skip, to be use in the search
+ * function of the model.
  * @param {object} req Web Request
- * @returns objetc containing the filters to apply for searching in DB,
- * obtained of the query request
+ * @returns objetc containing the results to apply for searching in DB.
  */
-adsSquema.statics.assingFilters=function (req) {
+adsSquema.statics.assingSearchData=function (req) {
+  let data={};
+  
+  //Filter assing
   let filters={};
   if (req.query.nombre) {
-    filters.nombre={'$regex':req.query.nombre.toLowerCase(), '$options': 'i'}
+    filters.nombre={'$regex':req.query.nombre.toLowerCase(), '$options': 'i'};
   }
   if (req.query.tag) {
     filters.tags=req.query.tag.toLowerCase();
   }
-  if (req.query.venta) {filters.venta=req.query.venta}
-  if (req.query.precio) {filters.precio=priceFilter(req.query.precio)}
+  if (req.query.venta) {filters.venta=req.query.venta;}
+  if (req.query.precio) {filters.precio=priceFilter(req.query.precio);}
 
-  return filters;
-}
+  data.filters=filters;
+  
+  //Pagination
+  data.skip=req.query.skip;
+  data.limit=req.query.limit;
+ 
+  //Sort
+  data.sort=req.query.sort;
+ 
+  //Fields
+  data.fields=req.query.fields;
+
+  return data;
+};
 
 // Creating model
 const Advertisement = mongoose.model('Advertisement', adsSquema);

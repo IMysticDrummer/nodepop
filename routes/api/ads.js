@@ -8,29 +8,15 @@ router.get('/', Advertisement.dataValidator('get'), async (req, res, next) => {
   try {
     validationResult(req).throw();
   } catch (error) {
-    return res.status(422).json({error: error.array()})
-/*
-    Código válido para fallos en la web
-
-    console.log(error.errors);
-    error.status=422;
-    next(error);
-*/
+    return res.status(422).json({error: error.array()});
   }
 
-  //Filters
-  let filters=Advertisement.assingFilters(req);
 
-  //Pagination
-  const skip=req.query.skip;
-  const limit=req.query.limit;
-  //Sort
-  const sort=req.query.sort;
-  //Fields
-  const fields=req.query.fields;
+  //Extracting the data for search
+  let data=Advertisement.assingSearchData(req);
 
   try {
-    const ads= await Advertisement.search(filters, skip, limit, sort, fields);
+    const ads= await Advertisement.search(data.filters, data.skip, data.limit, data.sort, data.fields);
     res.json({results:ads});
   } catch (error) {
     next(error);
@@ -46,7 +32,7 @@ router.get('/alltags', async (req, res) => {
   for (let index = 0; index < tagsPermitted.length; index++) {
     const element = tagsPermitted[index];
     filters.tags=element;
-    const tempResult=await Advertisement.search(filters)
+    const tempResult=await Advertisement.search(filters);
     results[element]=tempResult.length;
     
   }
@@ -61,13 +47,13 @@ router.post('/', Advertisement.dataValidator('post'), async (req, res) => {
   try {
     validationResult(req).throw();
   } catch (error) {
-    return res.status(422).json({error: error.array()})
+    return res.status(422).json({error: error.array()});
   }
 
   //Tags format
   let tagsTemp;
-  if (typeof(req.body.tags)==='string') {tagsTemp=[req.body.tags]}
-  else {tagsTemp=req.body.tags}
+  if (typeof(req.body.tags)==='string') {tagsTemp=[req.body.tags];}
+  else {tagsTemp=req.body.tags;}
 
   //Model
   const ad= new Advertisement ({

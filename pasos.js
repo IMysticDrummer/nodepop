@@ -30,5 +30,5 @@
   //DONE Paginación y filtros por url
   //DONE Filtros
 
-//TODO Tratar los errores
+//DONE Tratar los errores
 
