@@ -4,7 +4,7 @@ const {validationResult} = require('express-validator');
 const {Advertisement, tagsPermitted}=require('../../models/Anuncios');
 
 //Route /api?...
-router.get('/', Advertisement.dataValidatorGET(), async (req, res, next) => {
+router.get('/', Advertisement.dataValidator('get'), async (req, res, next) => {
   try {
     validationResult(req).throw();
   } catch (error) {
@@ -56,7 +56,7 @@ router.get('/alltags', async (req, res) => {
 
 //Router / method POST --> Save a new advertisement
 //next param is not going to be use. Deleted from the function call
-router.post('/', Advertisement.dataValidatorPOST(), async (req, res) => {
+router.post('/', Advertisement.dataValidator('post'), async (req, res) => {
   //Data validation
   try {
     validationResult(req).throw();

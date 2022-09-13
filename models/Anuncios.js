@@ -60,10 +60,12 @@ adsSquema.statics.search=function (filters, skip, limit, sort, fields) {
 
 /**
  * This functions makes the data validation by query string for the adsSchema to use with express-validator.  
- * It will check all the posibilities of transmission (body, query, params, headers or cookies)
+ * It will check the GET or POST method of transmission (query or body)
+ * @param {String} method Method utilised to pass the data. 'get' or 'post'
  * @returns express-validator results for the adsSchema
  */
-adsSquema.statics.dataValidatorGET=function () {
+adsSquema.statics.dataValidator=function (method) {
+  if (method==='get') {
   return [
     //GET fields in query
     query('nombre').if(query('nombre').exists()).isString().toLowerCase()
@@ -88,32 +90,27 @@ adsSquema.statics.dataValidatorGET=function () {
       .isIn(['nombre','-nombre', 'precio', '-precio', 'venta', '-venta'])
       .withMessage('Los campos vaídos para ordenar son: (-)nombre, (-)precio o (-)venta')
   ]
+  }
+  if (method==='post') {
+    return [
+      //Post fields
+      body('nombre').isString().toLowerCase().withMessage('nombre must exist and be an string'),
+      body('venta').isBoolean().withMessage('venta must exist and be true or false'),
+      body('precio').isFloat().withMessage('precio must exist and must be integer or float'),
+      body('foto').toLowerCase().custom(value => {
+        const name=value.split('.');
+        return (false || name[name.length-1]==='jpg' || name[name.length-1]==='jpeg' || name[name.length-1]==='png')
+      }).withMessage('foto file must be an jpg, jpeg or png format'),
+      body('tags').custom(value => {
+        return false || typeof(value)==='string' || Array.isArray(value);
+      })
+      .withMessage(`tags must be an array of strings containing one or several of ${tagsPermitted}`)
+    ]
+  }
 }
 
 /**
- * This functions makes the data validation by body for the adsSchema to use with express-validator.  
- * It will check all the posibilities of transmission (body, query, params, headers or cookies)
- * @returns express-validator results for the adsSchema
- */
-adsSquema.statics.dataValidatorPOST=function () {
-  return [
-    //Post fields
-    body('nombre').isString().toLowerCase().withMessage('nombre must exist and be an string'),
-    body('venta').isBoolean().withMessage('venta must exist and be true or false'),
-    body('precio').isFloat().withMessage('precio must exist and must be integer or float'),
-    body('foto').toLowerCase().custom(value => {
-      const name=value.split('.');
-      return (false || name[name.length-1]==='jpg' || name[name.length-1]==='jpeg' || name[name.length-1]==='png')
-    }).withMessage('foto file must be an jpg, jpeg or png format'),
-    body('tags').custom(value => {
-      return false || typeof(value)==='string' || Array.isArray(value);
-    })
-    .withMessage(`tags must be an array of strings containing one or several of ${tagsPermitted}`)
-  ]
-}
-
-/**
- * Function to prepare price integer filter query for mongoDB.
+ * Function to prepare price integer filter query to be use in mongoDB.
  * 
  * This function is only for internal use
  * @param {string} price String
