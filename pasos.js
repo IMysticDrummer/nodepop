@@ -20,6 +20,8 @@
   //DONE Lista de anuncios con filtros
   //DONE Lista de tags existentes
   //DONE Cargar anuncio
+  //DONE Mostrar las imágenes desde public/images/anuncios
+  //      La petición se hace con http://localhost:3000/images/anuncios/nombrearchivo.xxx
 
 //TODO Crear la página básica del site
   //TODO mostrar una lista de anuncios

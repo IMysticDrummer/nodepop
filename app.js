@@ -31,6 +31,12 @@ app.use('/api', apiRouter);
 /* Web request */
 app.use('/', indexRouter);
 
+//icon request is ignored
+app.use('/favicon.ico', (req, res, next) =>{
+  res.status(204);
+  res.send();
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
