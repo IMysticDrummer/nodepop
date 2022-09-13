@@ -3,9 +3,13 @@ Práctica de desarrollo backend para keepcoding web13.
 API del portal de anuncios de compra-venta de segunda mano.  
 Listar, filtrar, paginar y ordenar desde la URL.  
 Crear a través de petición post.  
+Servir archivos por llamado directo desde la URL.  
+Web básica mostrando los anuncios.  
 
-# PRERREQUISITOS PARA LA PRÁCTICA
-## Clonar el repositorio en local
+# PRERREQUISITOS PARA USAR LA APLICACIÓN
+## Clonar el repositorio en local  
+Repositorio:  
+[Nodepop](https://github.com/IMysticDrummer/nodepop.git)  
 ## Instalar dependencias
 No olvidar instalar las dependencias con el comando `npm install`.  
 ## Base de datos
@@ -16,21 +20,21 @@ Correr el comando `node initDB.js`
 El script se encargará de crear los índices necesarios, y subir los anuncios.  
 
 # Arranque de la aplicación  
+**Arranque en producción: `npm start`**  
 Modo desarrollo en windows: `npm run devWin`  
 Modo desarrollo en plataformas linux: `npm run dev`  
-**Arranque en producción: `npm start`**  
 
 # USO DEL API
 ## Propósito
 Este API devuelve el listado de anuncios de Nodepop en formato JSON, compuesto por la clave `results`, que cotiene un array de objetos.  
 Los campos a devolver se pueden seleccionar (ver la sección *peticiones al api*), aunque por defecto son:  
-- _id: del artículo en la base de datos
-- nombre (del artículo)
-- venta: indica si el artículo está en venta o si alguién está buscando ese artículo
-- precio
-- foto: nombre del archivo de la foto del artículo, que se puede obtener de ...
+- **_id**: del artículo en la base de datos
+- **nombre**: (del artículo)
+- **venta**: indica si el artículo está en venta o si alguién está buscando ese artículo
+- **precio**
+- **foto**: nombre del archivo de la foto del artículo, que se puede obtener directamente a través de [http://localhost:3000/images/anuncios/]*nombrearchivo*  
 - tags: array con el/los tags de tipo asociados al artículo.
-- __v: versionado del documento
+- **__v**: versionado del documento
 ## Peticiones al api
 ---
 ### Listado completo de anuncios  
@@ -44,9 +48,8 @@ filtros en línea:
 Como **mejora**, el texto se buscará en el campo completo
 del nombre, no sólo por la palabra con la que empieza.  
 Además, buscará patron, por lo que no hace falta poner
-la palabra completa. Esto permitirá mejorar la experiencia de búsqueda del utilizador en la página web, y de las
-solicitudes hechas desde el API, con búsquedas más abiertas.  
-*Este campo es insensible a búsqueda en mayúculas o minúsculas.*   
+la palabra completa. Esto permitirá mejorar la experiencia de búsqueda del utilizador en el APY y la página web, con búsquedas más abiertas.  
+*Este campo es insensible a búsqueda en mayúsculas o minúsculas.*   
 *Ejemplo:* `nombre=pho` devolverá tanto iPhone, como mobile phone, como phonetic.  
 - **venta=**(*true* o *false*) --> búsqueda de artículos en venta (*true*) o de artículos que se buscan (*false*).  
 Admite tanto valores true y false, como 1 y 0.
@@ -88,7 +91,7 @@ Sobre la dirección principal, y de la misma forma que se indican los filtros, s
 ## Imágenes
 Para acceder a las imágenes de los anuncios, basta con pedir al API el
 servicio de las misma en la dirección url /images/anuncios/*nombre-archivo.extension*.  
-Por ejemplo: `http://localhost:3000/images/anuncios/bicicleta.jpeg`.  
+Por ejemplo: `http://localhost:3000/images/anuncios/bici.jpeg`.  
 
 ---
 ## Número de elementos por tag permitido
