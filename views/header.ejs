@@ -7,32 +7,20 @@
     <form id="formFilterPagination" name="formFilterPagination" action="/" method="get">
       <nav>
         <section>
-          <h4>Filtros por:</h4>
+          <h4>Filtros aplicalbles en URL por:</h4>
           <ul class="filters">
-            <li>Tag</li>
-            <li>Tipo</li>
-            <li>Precio</li>
-            <li>Nombre</li>
+            <li>tag</li>
+            <li>venta</li>
+            <li>precio</li>
+            <li>nombre</li>
+            <li></li>
+            <li>Aplicable ordenación con "sort", y selección de campos con "fields"</li>
+            <li>Aplicable paginación con "skip" y "limit"</li>
           </ul>
         </section>
         <section>
 
-          <label for="artPerPage"><h4><%= limit %> Elementos por página</h4></label>
-          <ul class="pagination">
-            <input type="hidden" name="page" id="page" value=<%= currentPage %>>
-              <li><label><%= currentPage %> de <%= totalPages %></label></li>
-              <% if (currentPage<=1) { %>  
-                <li><button id="prev" type="button" disabled=true onclick=prevPage()>Anterior</button></li>
-              <% } else { %>
-                <li><button id="prev" type="button" onclick=prevPage()>Anterior</button></li>
-              <% } %>
-
-              <% if (currentPage>=totalPages) { %>  
-                <li><button id="next" type="button" disabled=true onclick=nextPage()>Siguiente</button></li>
-              <% } else { %>
-                <li><button id="next" type="button" onclick=nextPage()>Siguiente</button></li>
-              <% } %>
-          </ul>
+          <label for="artPerPage"><h4><%= limit %> Elementos en esta página, de <%=ads.length%></h4></label>
 
         </section>
       </nav>

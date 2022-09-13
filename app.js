@@ -50,6 +50,7 @@ app.use(function(err, req, res) {
   //console.log('Este es el error: ',err.status);
   res.locals.url= req.url;
   
+  
   if (err.status===422) {
     res.locals.message = err.errors[0].msg}
   else {res.locals.message = err.message}
@@ -57,6 +58,7 @@ app.use(function(err, req, res) {
 
   // render the error page
   res.status(err.status || 500);
+  console.log(err.status)
   res.render('error');
 });
 

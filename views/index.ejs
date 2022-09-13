@@ -16,20 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&family=Sora:wght@400;700&display=swap" rel="stylesheet">
 
-  <script>
-    function nextPage() {
-      let page=document.getElementById('page');
-      page.value=parseInt(++page.value);
-
-      document.getElementById("formFilterPagination").submit();
-    }
-    function prevPage() {
-      let page=document.getElementById('page');
-      page.value=parseInt(--page.value);
-
-      document.getElementById("formFilterPagination").submit();
-    }
-  </script>
 </head>
 <body>
   
@@ -39,11 +25,21 @@
     <section>
       <% ads.forEach(element => { %>
         <article>
-          <h2 class="articleTitle">TITULO ARTÍCULO <%= element  %> </h2>
-          <picture class="articleImg">IMAGEN ARTÍCULO</picture>
-          <h4 class="sale">VENTA O BÚSQUEDA</h4>
-          <p class="tags">TAGS</p>
+          <h2 class="articleTitle">Artículo: <%= element.nombre  %> </h2>
+          <img class="articleImg" src="/images/anuncios/<%= element.foto%>" alt="<%= element.foto%>"></picture>
+          <% if (element.venta===true) { %>
+            <h4 class="sale">EN VENTA</h4>
+          <% } else { %>
+            <h4 class="sale">BÚSCO</h4>
+          <%}%>
+          <p class="tags">TAGS</p> <p>
+          <% element.tags.forEach(tag => {%>
+            <span><%=tag%>  </span>
+          <%})%></p>
           <h3 class="price">PRECIO</h3>
+          <p class="priceElement"><%= element.precio %></p>
+          <p class="infos">Otras Infos</p>
+          <p>id:<%= element._id %> ; __v: <%= element.__v %></p>
         </article>
         <hr/>
       <% }); %>

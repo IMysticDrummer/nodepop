@@ -85,6 +85,12 @@ Sobre la dirección principal, y de la misma forma que se indican los filtros, s
   `http://localhost:3000/api/?fields=nombre+precio%20-_id`  
   Esto devolverá el listado de artículos sólo con los campos nombre y precio.  
 ---  
+## Imágenes
+Para acceder a las imágenes de los anuncios, basta con pedir al API el
+servicio de las misma en la dirección url /images/anuncios/*nombre-archivo.extension*.  
+Por ejemplo: `http://localhost:3000/images/anuncios/bicicleta.jpeg`.  
+
+---
 ## Número de elementos por tag permitido
 Devuelve un objeto con los tags permitidos y cuantos anuncios de cada tag hay contenidos en la base de datos  
 `http://localhost:3000/api/alltags`  
@@ -118,6 +124,16 @@ Si el fallo es debido a algún dato mal introducido, o faltante (cuando se inten
 En casos de errores por validación de un sólo dato, el API devolverá el objeto de error completo.
 
 Cualquier fallo no detectado, rogamos se pongan en contacto para su descripción y resolución.
+
+---
+# PÁGINA WEB
+Bajo la dirección `http://localhost:3000` el servidor mostrará una página web de testeo, dónde se mostraran los
+anuncios contenidos en la base de datos.
+
+Se pueden aplicar los mismos filtros que en la API, sin poner `/api` en la URL, para probar el funcionamiento de la misma, y filtrar
+los anuncios. Por ejemplo:  
+`http://localhost:3000/?precio=50-&sort=precio` --> Muestra los artículos mayores e iguales de 50 de precio, ordenados por precio.
+
 
 
 

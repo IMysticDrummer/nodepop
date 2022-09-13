@@ -4,14 +4,14 @@
       "nombre": "Bicicleta",
       "venta": true,
       "precio": 230.15,
-      "foto": "bici.jpg",
+      "foto": "bici.jpeg",
       "tags": [ "lifestyle", "motor"]
     },
     {
       "nombre": "iPhone 3GS",
       "venta": false,
       "precio": 50.00,
-      "foto": "iphone.png",
+      "foto": "iphone.jpeg",
       "tags": [ "lifestyle", "mobile"]
     },
     {
@@ -25,7 +25,7 @@
       "nombre": "Mochila para portátil",
       "venta": false,
       "precio": 45,
-      "foto": "mochila_portatil.jpg",
+      "foto": "mochila_portatil.jpeg",
       "tags": [ "lifestyle", "work"]
     },
     {

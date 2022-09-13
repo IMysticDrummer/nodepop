@@ -2,7 +2,6 @@ const express=require('express');
 const router=express.Router();
 const {validationResult} = require('express-validator');
 const {Advertisement, tagsPermitted}=require('../../models/Anuncios');
-const priceFilter=require('../../lib/priceFilter');
 
 //Route /api?...
 router.get('/', Advertisement.dataValidatorGET(), async (req, res, next) => {
@@ -19,22 +18,15 @@ router.get('/', Advertisement.dataValidatorGET(), async (req, res, next) => {
 */
   }
 
-  let filters={};
-  
-  if (req.query.nombre) {
-    filters.nombre={'$regex':req.query.nombre.toLowerCase(), '$options': 'i'}
-  }
-  if (req.query.tag) {
-    filters.tags=req.query.tag.toLowerCase();
-  }
-  if (req.query.venta) {filters.venta=req.query.venta}
-  if (req.query.precio) {filters.precio=priceFilter(req.query.precio)}
+  //Filters
+  let filters=Advertisement.assingFilters(req);
 
+  //Pagination
   const skip=req.query.skip;
   const limit=req.query.limit;
-
+  //Sort
   const sort=req.query.sort;
-
+  //Fields
   const fields=req.query.fields;
 
   try {

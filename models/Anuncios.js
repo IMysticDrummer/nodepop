@@ -112,6 +112,65 @@ adsSquema.statics.dataValidatorPOST=function () {
   ]
 }
 
+/**
+ * Function to prepare price integer filter query for mongoDB.
+ * 
+ * This function is only for internal use
+ * @param {string} price String
+ * @returns integer or object
+ * 
+ * This function receips one string containing:  
+ *  one number;  
+ *  two numbers, separates by '-' without spaces;  
+ *  one number before '-' without spaces;  
+ *  one number after '-' without spaces.  
+ *   
+ * Returns:  
+ * If price is one number, the function returns the number in integer format;  
+ * If price are two numbers --> objetct containig
+ *  {$gte: first number, $lte: second number};  
+ * If price is number+'-' --> object {$gte: number};  
+ * If price is '-'+number --> object {$lte: number}
+ */
+ function priceFilter(price) {
+  if (price) {
+    let query
+    let limits=price.split('-');
+
+    if (limits.length===1) {query=parseInt(limits[0])}
+    else {
+      query={};
+      if (limits[0]!=='') {
+        query={$gte:parseInt(limits[0])};
+      }
+      if (limits[1]!=='') {
+        query.$lte=parseInt(limits[1]);
+      }
+    }
+    return query;
+  }
+}
+
+/**
+ * Static method
+ * @param {object} req Web Request
+ * @returns objetc containing the filters to apply for searching in DB,
+ * obtained of the query request
+ */
+adsSquema.statics.assingFilters=function (req) {
+  let filters={};
+  if (req.query.nombre) {
+    filters.nombre={'$regex':req.query.nombre.toLowerCase(), '$options': 'i'}
+  }
+  if (req.query.tag) {
+    filters.tags=req.query.tag.toLowerCase();
+  }
+  if (req.query.venta) {filters.venta=req.query.venta}
+  if (req.query.precio) {filters.precio=priceFilter(req.query.precio)}
+
+  return filters;
+}
+
 // Creating model
 const Advertisement = mongoose.model('Advertisement', adsSquema);
 
