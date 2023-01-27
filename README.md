@@ -1,3 +1,14 @@
+# AÑADIDO PARA LA PRÁCTICA DE DevOps
+La aplicación está desplegada en la ip 54.84.80.202, de la siguiente forma:  
+1. Si se entra a través de la IP [54.84.80.202](http://54.84.80.202) se accede a la página principal de la aplicación React.
+  1. Esta aplicación está preparara para que las rutas sean tratadas por la propia aplicación y no devuelva la página 404 de nginx, sino la de react.
+2. Si se entra a través del nombre de dominio [ec2-54-84-80-202.compute-1.amazonaws.com](http://ec2-54-84-80-202.compute-1.amazonaws.com/), se accede a la página web de prueba de la aplicación backend nodeapp
+  1. Los archivos de imagen de los anuncios y los css son servidos directamente por nginx. Para asegurarlo, se añade la cabecera X-Owner en la response.
+  2. Todos los filtros e instrucciones indicados aquí abajo son aplicables, teniendo en cuenta que la petición ha de hacerse al nombre de dominio.
+  3. El API también es accesible a través de aplicaciones tipo postman o insomnia con las mismas consideraciones que en el punto anterior.  
+**Nota de desarrollador**: La página web de testeo del API accesible a través de nombre de dominio, tiene reservado un espacio recuadrado en la cabecera para la inclusión de un logo... pero no se ha incluido ninguno. No es un error de tu navegador :) .
+
+
 # NODEPOP
 Práctica de desarrollo backend para keepcoding web13. 
 API del portal de anuncios de compra-venta de segunda mano.  
